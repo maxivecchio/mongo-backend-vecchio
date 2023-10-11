@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const Product = require('./Product');
 
 const CartSchema = mongoose.Schema({
     user: {
@@ -24,5 +25,16 @@ const CartSchema = mongoose.Schema({
         type: Number
     }
 });
+
+CartSchema.methods.calculateTotalAmount = async function() {
+    let total = 0;
+    for (let item of this.products) {
+        const product = await Product.findById(item.product);
+        total += product.price * item.quantity;
+    }
+    this.totalAmount = total;
+    await this.save();
+};
+
 
 module.exports = mongoose.model('Cart', CartSchema);
