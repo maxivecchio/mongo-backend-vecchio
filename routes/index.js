@@ -2,7 +2,7 @@ const usersRouter = require('./users');
 const productsRouter = require('./products');
 const categoriesRouter = require('./categories');
 const cartRouter = require('./cart');
-const auth = require('../middleware/auth');
+const auth = require('../middlewares/auth');
 
 function routerAPI( app ){
     app.use('/api/users', usersRouter);
