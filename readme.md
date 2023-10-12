@@ -18,25 +18,25 @@ Univeristy Task
 Clone the project
 
 ```bash
-  git clone https://github.com/maxivecchio/mongo-backend-vecchio
+git clone https://github.com/maxivecchio/mongo-backend-vecchio
 ```
 
 Go to the project directory
 
 ```bash
-  cd mongo-backend-vecchio // default
+cd mongo-backend-vecchio // default
 ```
 
 Install dependencies
 
 ```bash
-  npm install
+npm install
 ```
 
 Start the server
 
 ```bash
-  node app.js
+node app.js
 ```
 
 ## Support
