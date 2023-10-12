@@ -48,7 +48,6 @@ exports.getUserById = async (req, res) => {
 
 exports.createUser = async (req, res) => {
     const { email, password } = req.body;
-    console.log(JWT_SECRET)
 
     try {
         let user = await User.findOne({ email });
