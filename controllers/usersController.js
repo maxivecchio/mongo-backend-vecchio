@@ -18,7 +18,6 @@ exports.authenticateUser = async (req, res) => {
                 id: user.id
             }
         };
-
         jwt.sign(payload, JWT_SECRET, { expiresIn: '1h' }, (err, token) => {
             if (err) throw err;
             res.json({ token });
@@ -49,6 +48,7 @@ exports.getUserById = async (req, res) => {
 
 exports.createUser = async (req, res) => {
     const { email, password } = req.body;
+    console.log(JWT_SECRET)
 
     try {
         let user = await User.findOne({ email });
@@ -69,7 +69,7 @@ exports.createUser = async (req, res) => {
             }
         };
 
-        jwt.sign(payload, config.get('JWT_SECRET'), { expiresIn: '1h' }, (err, token) => {
+        jwt.sign(payload, JWT_SECRET, { expiresIn: '1h' }, (err, token) => {
             if (err) throw err;
             res.json({ token });
         });

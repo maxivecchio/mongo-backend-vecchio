@@ -50,3 +50,23 @@ exports.removeFromCart = async (req, res) => {
         res.status(500).send('Server Error ' + err);
     }
 };
+
+exports.emptyCart = async (req, res) => {
+    try {
+        const cart = await Cart.findOne({ user: req.params.userId });
+        
+        if (!cart) {
+            return res.status(404).json({ msg: 'Cart not found' });
+        }
+        
+        cart.products = [];
+        
+        await cart.calculateTotalAmount();
+        
+        await cart.save();
+
+        res.json({ msg: 'Cart emptied successfully' });
+    } catch (err) {
+        res.status(500).send('Server Error ' + err);
+    }
+};

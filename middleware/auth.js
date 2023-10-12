@@ -1,8 +1,8 @@
 const jwt = require('jsonwebtoken');
-const JWT_SECRET = "ClaveSecreta";
+const { JWT_SECRET } =  require('../config')
 
-module.exports = function(req, res, next) {
-    const token = req.header('Authorization').replace('Bearer ', '');
+const auth = (req, res, next) => {
+    const token = req.header('Authorization')?.replace('Bearer ', '');
 
     if (!token) {
         return res.status(401).json({ msg: 'No token, authorization denied' });
@@ -16,3 +16,5 @@ module.exports = function(req, res, next) {
         res.status(401).json({ msg: 'Token is not valid' });
     }
 };
+
+module.exports = auth;
