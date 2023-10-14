@@ -24,7 +24,8 @@ git clone https://github.com/maxivecchio/mongo-backend-vecchio
 Go to the project directory
 
 ```bash
-cd mongo-backend-vecchio // default
+// default
+cd mongo-backend-vecchio
 ```
 
 Install dependencies
