@@ -32,6 +32,17 @@ Install dependencies
 ```bash
 npm install
 ```
+Environment Configuration
+
+
+- Please establish a .env file in the root directory with the following configurations:
+
+```bash
+PORT=3022
+JWT_SECRET=SDSAAKSKDAKDKSKDASKD
+DB_MONGO_URL=mongodb+srv://admin:root@davinci.osgdagz.mongodb.net/?retryWrites=true&w=majority&appName=AtlasApp
+```
+Note: The MongoDB Database URL provided is solely for educational purposes related to the "davinci" project. Ensure that you handle this information with care.
 
 Start the server
 
