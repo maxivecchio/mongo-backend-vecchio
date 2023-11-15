@@ -14,11 +14,11 @@ const whitelist = [
   
   const corsOptions = {
     origin: function (origin, callback) {
-      if (whitelist.indexOf(origin) !== -1 || !origin) {
-        callback(null, true);
+      /* if (whitelist.indexOf(origin) !== -1 || !origin) {
       } else {
         callback(new Error('Not allowed by CORS [Modified]'));
-      }
+      } */
+      callback(null, true);
     },
   };
   
