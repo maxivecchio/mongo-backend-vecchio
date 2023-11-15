@@ -20,11 +20,12 @@ exports.getProductById = async (req, res) => {
 };
 
 exports.createProduct = async (req, res) => {
-    const { name, description, price, category, stock, imageUrl } = req.body;
+    const { name, slug, description, price, category, stock, imageUrl } = req.body;
 
     try {
         let product = new Product({
             name,
+            slug,
             description,
             price,
             category,
@@ -40,10 +41,11 @@ exports.createProduct = async (req, res) => {
 };
 
 exports.updateProduct = async (req, res) => {
-    const { name, description, price, category, stock, imageUrl } = req.body;
+    const { name, slug, description, price, category, stock, imageUrl } = req.body;
 
     const productFields = {};
     if (name) productFields.name = name;
+    if (slug) productFields.slug = slug;
     if (description) productFields.description = description;
     if (price) productFields.price = price;
     if (category) productFields.category = category;
