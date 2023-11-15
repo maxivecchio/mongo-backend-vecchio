@@ -12,7 +12,6 @@ const whitelist = [
     'https://cambiar-moveup',
   ];
   
-  // Opciones de CORS
   const corsOptions = {
     origin: function (origin, callback) {
       if (whitelist.indexOf(origin) !== -1 || !origin) {
@@ -21,7 +20,6 @@ const whitelist = [
         callback(new Error('Not allowed by CORS [Modified]'));
       }
     },
-    // Puedes añadir más opciones si es necesario
   };
   
   app.use(cors(corsOptions));
