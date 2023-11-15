@@ -18,7 +18,7 @@ const whitelist = [
       if (whitelist.indexOf(origin) !== -1 || !origin) {
         callback(null, true);
       } else {
-        callback(new Error('Not allowed by CORS [modified]'));
+        callback(new Error('Not allowed by CORS [Modified]'));
       }
     },
     // Puedes añadir más opciones si es necesario
