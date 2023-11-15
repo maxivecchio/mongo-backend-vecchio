@@ -8,22 +8,21 @@ const app = express();
 const PORT = process.env.PORT;
 
 const whitelist = [
-    'http://localhost:5173',
-    'http://localhost:5173/',
-    'https://cambiar-moveup',
-  ];
-  
-  const corsOptions = {
-    origin: function (origin, callback) {
-      if (whitelist.indexOf(origin) !== -1 || !origin) {
-        callback(null, true);
-      } else {
-        callback(new Error('Not allowed by CORS [Modified]'));
-      }
-    },
-  };
-  
-  app.use(cors(corsOptions));
+  'http://localhost:5173',
+  'http://localhost:5173/',
+];
+
+const corsOptions = {
+  origin: function (origin, callback) {
+    if (whitelist.indexOf(origin) !== -1 || !origin) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS [Modified]'));
+    }
+  },
+};
+
+app.use(cors(corsOptions));
 
 connectDB();
 
