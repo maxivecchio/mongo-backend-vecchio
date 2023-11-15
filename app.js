@@ -9,16 +9,17 @@ const PORT = process.env.PORT;
 
 const whitelist = [
     'http://localhost:5173',
+    'http://localhost:5173/',
     'https://cambiar-moveup',
   ];
   
   const corsOptions = {
     origin: function (origin, callback) {
-      /* if (whitelist.indexOf(origin) !== -1 || !origin) {
+      if (whitelist.indexOf(origin) !== -1 || !origin) {
+        callback(null, true);
       } else {
         callback(new Error('Not allowed by CORS [Modified]'));
-      } */
-      callback(null, true);
+      }
     },
   };
   
