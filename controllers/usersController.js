@@ -16,6 +16,7 @@ exports.authenticateUser = async (req, res) => {
                 id: user.id
             }
         };
+
         jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '1h' }, (err, token) => {
             if (err) throw err;
             res.json({ token });
@@ -45,7 +46,7 @@ exports.getUserById = async (req, res) => {
 }
 
 exports.createUser = async (req, res) => {
-    const { email, password } = req.body;
+    const { email, password, displayname } = req.body;
 
     try {
         let user = await User.findOne({ email });
@@ -55,7 +56,8 @@ exports.createUser = async (req, res) => {
 
         user = new User({
             email,
-            password: bcrypt.hashSync(password, 10)
+            password: bcrypt.hashSync(password, 10),
+            displayname: displayname
         });
 
         await user.save();
@@ -76,11 +78,12 @@ exports.createUser = async (req, res) => {
 }
 
 exports.updateUser = async (req, res) => {
-    const { email, password } = req.body;
+    const { email, password, displayname } = req.body;
 
     const userFields = {};
     if (email) userFields.email = email;
-    if (password) userFields.password = password;
+    if (password) userFields.password = bcrypt.hashSync(password, 10);
+    if (displayname) userFields.displayname = displayname;
 
     try {
         let user = await User.findById(req.params.id);

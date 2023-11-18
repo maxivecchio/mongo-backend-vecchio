@@ -10,11 +10,11 @@ const {
 
 const router = express.Router();
 
-router.get('/auth', authenticateUser);
+router.post('/auth', authenticateUser);
 router.get('/', getAllUsers);
 router.get('/:id', getUserById);
 router.post('/', createUser);
-router.put('/:id', updateUser);
+router.patch('/:id', updateUser);
 router.delete('/:id', deleteUser);
 
 module.exports = router;
