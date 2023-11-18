@@ -1,3 +1,45 @@
+import { initializeApp } from "firebase/app";
+import {
+    getStorage,
+    ref,
+    uploadBytes,
+    getDownloadURL,
+    deleteObject,
+} from "firebase/storage";
+
+const MIMETYPES = ["image/jpg", "image/png", "image/jpeg"];
+
+const firebaseConfig = {
+    apiKey: "AIzaSyD-D0vsd7oD4-YMzOEH8JfGODG-9w95CJc",
+    authDomain: "ecomercemexx.firebaseapp.com",
+    databaseURL: "https://ecomercemexx-default-rtdb.firebaseio.com/",
+    projectId: "ecomercemexx",
+    storageBucket: "ecomercemexx.appspot.com",
+    messagingSenderId: "963775315846",
+    appId: "1:963775315846:web:9546287b9da46d2b567607",
+};
+
+const firebaseApp = initializeApp(firebaseConfig);
+const storage = getStorage(firebaseApp);
+
+const storageRef = ref(storage);
+
+const storageMiddleware = multer.memoryStorage();
+
+const multerUpload = multer({
+    storage: storageMiddleware,
+    fileFilter: (req, file, cb) => {
+        if (MIMETYPES.includes(file.mimetype)) {
+            cb(null, true);
+        } else {
+            cb(new Error(`Only ${MIMETYPES.join(", ")} mimetypes are allowed`));
+        }
+    },
+    limits: {
+        fileSize: 10000000,
+    },
+});
+
 const Product = require('../models/Product');
 
 exports.getAllProducts = async (req, res) => {
@@ -21,6 +63,22 @@ exports.getProductById = async (req, res) => {
 
 exports.createProduct = async (req, res) => {
     const { name, slug, description, price, category, stock, imageUrl } = req.body;
+    const imgFiles = req.files;
+
+    if (!imgFiles || imgFiles.length === 0) {
+        return res.status(400).send("No se proporcionaron imágenes");
+    }
+
+    const imgURLs = [];
+    for (const imgFile of imgFiles) {
+        const imgExtension = extname(imgFile.originalname);
+        const imgFileName = imgFile.originalname.split(imgExtension)[0];
+        const imgFilePath = `uploads/${imgFileName}-${Date.now()}${imgExtension}`;
+        const fileRef = ref(storage, imgFilePath);
+        const snapshot = await uploadBytes(fileRef, imgFile.buffer);
+        const imgURL = await getDownloadURL(snapshot.ref);
+        imgURLs.push({ url: imgURL });
+    }
 
     try {
         let product = new Product({
@@ -30,7 +88,7 @@ exports.createProduct = async (req, res) => {
             price,
             category,
             stock,
-            imageUrl
+            imgs: imgURLs,
         });
 
         await product.save();

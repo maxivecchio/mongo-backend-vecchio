@@ -1,6 +1,10 @@
 const mongoose = require('mongoose');
 
-const ProductSchema = mongoose.Schema({
+const ProductSchema = new mongoose.Schema({
+    user_id: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+    },
     name: {
         type: String,
         required: true
@@ -25,9 +29,7 @@ const ProductSchema = mongoose.Schema({
         type: Number,
         default: 0
     },
-    imageUrl: {
-        type: String
-    }
-});
+    imgs: [{ url: String }],
+}, { timestamps: true });
 
 module.exports = mongoose.model('Product', ProductSchema);
