@@ -1,28 +1,28 @@
-import { initializeApp } from "firebase/app";
-import {
+const { initializeApp } = require("firebase/app");
+const {
     getStorage,
     ref,
     uploadBytes,
     getDownloadURL,
     deleteObject,
-} from "firebase/storage";
+} = require("firebase/storage");
 
 const MIMETYPES = ["image/jpg", "image/png", "image/jpeg"];
 
 const firebaseConfig = {
-    apiKey: "AIzaSyD-D0vsd7oD4-YMzOEH8JfGODG-9w95CJc",
-    authDomain: "ecomercemexx.firebaseapp.com",
-    databaseURL: "https://ecomercemexx-default-rtdb.firebaseio.com/",
-    projectId: "ecomercemexx",
-    storageBucket: "ecomercemexx.appspot.com",
-    messagingSenderId: "963775315846",
-    appId: "1:963775315846:web:9546287b9da46d2b567607",
+    apiKey: "AIzaSyCVy_2wkZqDXRZyDm6jPBwqcXz5WjYy28g",
+    authDomain: "moveup-marketplace.firebaseapp.com",
+    projectId: "moveup-marketplace",
+    storageBucket: "moveup-marketplace.appspot.com",
+    messagingSenderId: "430836231346",
+    appId: "1:430836231346:web:808fd209694442f0f52dab"
 };
 
 const firebaseApp = initializeApp(firebaseConfig);
 const storage = getStorage(firebaseApp);
 
 const storageRef = ref(storage);
+const multer = require('multer');
 
 const storageMiddleware = multer.memoryStorage();
 
@@ -137,4 +137,3 @@ exports.deleteProduct = async (req, res) => {
         res.status(500).send('Server Error ' + err);
     }
 };
-

@@ -4,19 +4,31 @@ const UserSchema = mongoose.Schema({
     email: {
         type: String,
         required: true,
-        unique: true
+        unique: true,
     },
     password: {
         type: String,
-        required: true
+        required: true,
     },
     displayname: {
         type: String,
-        required: true,
+        required: false,
     },
     username: {
         type: String,
-        required: true
+        required: false,
+    },
+    isBusiness: {
+        type: Boolean,
+        required: true,
+    },
+    businessContact: {
+        type: String,
+        required: false,
+    },
+    businessAddress: {
+        type: String,
+        required: false,
     }
 });
 
