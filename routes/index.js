@@ -8,7 +8,7 @@ function routerAPI( app ){
     app.use('/api/users', usersRouter);
     app.use('/api/products', productsRouter);
     app.use('/api/categories', categoriesRouter);
-    app.use('/api/cart', auth, cartRouter);
+    app.use('/api/cart', cartRouter);
 }
 
 module.exports = routerAPI;
