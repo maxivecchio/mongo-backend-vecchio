@@ -10,6 +10,10 @@ const UserSchema = mongoose.Schema({
         type: String,
         required: true,
     },
+    isBusiness: {
+        type: Boolean,
+        required: true,
+    },
     displayname: {
         type: String,
         required: false,
@@ -17,10 +21,6 @@ const UserSchema = mongoose.Schema({
     username: {
         type: String,
         required: false,
-    },
-    isBusiness: {
-        type: Boolean,
-        required: true,
     },
     businessContact: {
         type: String,
@@ -31,5 +31,9 @@ const UserSchema = mongoose.Schema({
         required: false,
     }
 });
+
+UserSchema.statics.findByUsername = function (username) {
+    return this.findOne({ username: username });
+};
 
 module.exports = mongoose.model('User', UserSchema);

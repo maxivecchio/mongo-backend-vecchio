@@ -23,7 +23,7 @@ const ProductSchema = new mongoose.Schema({
     category: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Category',
-        required: true
+        required: false
     },
     stock: {
         type: Number,
@@ -31,5 +31,13 @@ const ProductSchema = new mongoose.Schema({
     },
     imgs: [{ url: String }],
 }, { timestamps: true });
+
+ProductSchema.statics.findBySlug = function (slug) {
+    return this.findOne({ slug: slug });
+};
+
+ProductSchema.statics.findByUserSlug = function (slug) {
+    return this.find({ slug: slug });
+};
 
 module.exports = mongoose.model('Product', ProductSchema);

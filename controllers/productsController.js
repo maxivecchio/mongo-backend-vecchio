@@ -41,6 +41,7 @@ const multerUpload = multer({
 });
 
 const Product = require('../models/Product');
+const User = require("../models/User");
 
 exports.getAllProducts = async (req, res) => {
     try {
@@ -61,15 +62,49 @@ exports.getProductById = async (req, res) => {
     }
 };
 
+exports.getProductBySlug = async (req, res) => {
+    try {
+        const slug = req.params.slug;
+        console.log(slug)
+        const product = await Product.findBySlug(slug);
+        if (!product) {
+            return res.status(404).json({ msg: 'Product not found' });
+        }
+        res.json(product);
+    } catch (err) {
+        res.status(500).send('Server Error ' + err);
+    }
+};
+
+exports.getProductByUserId = async (req, res) => {
+    try {
+        const products = await Product.find({ user_id: req.params.userId });
+        res.json(products);
+    } catch (error) {
+        res.status(500).send(error);
+    }
+};
+
+
+exports.getProductsByUserHandle = async (req, res) => {
+    try {
+        const user = await User.findByUsername(req.params.username);
+        const products = await Product.find({ user_id: user._id });
+        res.json({ user: user, products: products });
+    } catch (error) {
+        res.status(500).send(error);
+    }
+};
+
 exports.createProduct = async (req, res) => {
-    const { name, slug, description, price, category, stock, imageUrl } = req.body;
-    const imgFiles = req.files;
+    const { name, slug, description, price, stock, user_id } = req.body;
+    /* const imgFiles = req.files;
 
     if (!imgFiles || imgFiles.length === 0) {
         return res.status(400).send("No se proporcionaron imágenes");
-    }
+    } */
 
-    const imgURLs = [];
+    /* const imgURLs = [];
     for (const imgFile of imgFiles) {
         const imgExtension = extname(imgFile.originalname);
         const imgFileName = imgFile.originalname.split(imgExtension)[0];
@@ -78,17 +113,19 @@ exports.createProduct = async (req, res) => {
         const snapshot = await uploadBytes(fileRef, imgFile.buffer);
         const imgURL = await getDownloadURL(snapshot.ref);
         imgURLs.push({ url: imgURL });
-    }
+    } */
+    console.log(user_id)
 
     try {
         let product = new Product({
+            user_id,
             name,
             slug,
             description,
             price,
-            category,
+            /* category, */
             stock,
-            imgs: imgURLs,
+            /* imgs: imgURLs, */
         });
 
         await product.save();

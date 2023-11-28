@@ -58,7 +58,8 @@ exports.createUser = async (req, res) => {
             email,
             password: bcrypt.hashSync(password, 10),
             displayname: displayname,
-            username: username
+            username: "@" + username,
+            isBusiness: false,
         });
 
         await user.save();
@@ -79,13 +80,16 @@ exports.createUser = async (req, res) => {
 }
 
 exports.updateUser = async (req, res) => {
-    const { email, password, displayname, username } = req.body;
+    const { email, password, isBusiness, displayname, username, businessContact, businessAddress } = req.body;
 
     const userFields = {};
     if (email) userFields.email = email;
     if (password) userFields.password = bcrypt.hashSync(password, 10);
-    if (displayname) userFields.displayname = displayname;
-    if (username) userFields.username = username;
+    if ('isBusiness' in req.body) userFields.isBusiness = isBusiness;
+    if ('displayname' in req.body) userFields.displayname = displayname;
+    if ('username' in req.body) userFields.username = "@" + username;
+    if ('businessContact' in req.body) userFields.businessContact = businessContact;
+    if ('businessAddress' in req.body) userFields.businessAddress = businessAddress;
 
     try {
         let user = await User.findById(req.params.id);
